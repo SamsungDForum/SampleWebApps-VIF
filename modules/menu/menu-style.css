@@ -1,0 +1,35 @@
+.main-options{
+    position: absolute;
+    width: 830px;
+    height: 150px;
+    background-color: #f6f6f6;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 1px 1px rgba(0,0,0,0.15);
+    border-radius: 83px;
+}
+.option-element{
+    width: 50%;
+    height: 100%;
+    float: left;
+    border-radius: 83px;
+}
+.option-span-container{
+    text-align: center;
+    margin-top: 25px;
+    margin-left: 107.5px;
+    width: 200px;
+    height: 100px;
+}
+.option-span-container span{    
+    font-family: 'Calibri';
+    font-size: 40px;
+    display: inline-block;
+    margin-top: 24px;
+}
+.main-focus{
+     background-color: #04075d;
+     color: #ffffff;
+}
