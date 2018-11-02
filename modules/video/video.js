@@ -7,7 +7,6 @@ angular
     
     tizen.bixby.initialize();
 
-
     var cmd_SetScreenFit          = 'tvMediaControl.SetScreenFit';
     var cmd_SkipForward           = 'tvMediaControl.SkipForward';
     var cmd_SkipBackward          = 'tvMediaControl.SkipBackward';
@@ -155,7 +154,7 @@ angular
           EnterButtonBehavior(GlobalObject, CurrentPlayerState);
           break;
         case "play":
-          PlayVideo(playerURL,subtitleURL,CurrentPlayerState);
+          PlayVideo(playerURL,CurrentPlayerState);
           break;
         case "stop":
           StopVideoBehavior("[STOP PRESS]");
@@ -167,7 +166,7 @@ angular
           JumpBackward(5);
           break;
         case "nextItem":
-          GoToNextItem("Next Item!");
+          GoToNextItem("PlayNextItemListener");
           break;
         case "pause":
           vm.isPlaying = false;
@@ -195,26 +194,25 @@ angular
     }
         
     function SetURL(id) {
-      // JSON File expected
       switch (id) {
         case "vid0":
-          playerURL = "http://your-video1.mp4";
+          playerURL = "http://your_video1.mp4";
           subtitleURL = '';
           break;
         case "vid1":
-        playerURL = "http://your-video2.mp4";
+          playerURL = "http://your_video2.mp4";
           subtitleURL = '';
           break;
         case "vid2":
-          playerURL = "http://your-video3.mp4";
+          playerURL = "http://your_video3.mp4";
           subtitleURL  = '';
           break;
         case "vid3":
-          playerURL = "http://your-video4.mp4";
+          playerURL = "http://your_video4.mp4";
           subtitleURL = '';
           break;
         case "vid4":
-          playerURL = "http://your-video5.mp4";
+          playerURL = "http://your_video5.mp4";
           subtitleURL = '';
           break;
         default:
@@ -228,7 +226,7 @@ angular
       $scope.$apply();
     }
 
-    function PlayVideo(url, subtitle,playerState) {
+    function PlayVideo(url,playerState) {
       if (playerState === null) {
         return;
       } 
@@ -365,7 +363,6 @@ angular
     }
 
     function SetSubtitle(status) {
-
       var subtitle = document.getElementById("subtitle");
 
       if (status === 'on') {
@@ -376,31 +373,30 @@ angular
       }
     }
 
-    function GoToNextItem(message){
-      console.log(message);
+    function GoToPreviousItem(message) {
       var CurrentPlayerState = webapis.avplay.getState();
-      var currentVideoIndex = vm.videoList_index;
       var videoId = 'vid';
-      if(vm.videoList_index < 4){
-        vm.videoList_index++;
-        $scope.$apply();
 
-        SetURL(videoId + vm.videoList_index);
-        StopVideoBehavior("Next Video");
-        PlayVideo(playerURL,CurrentPlayerState);
-      }
-      else if(vm.videoList_index === 4){
-        console.log('No more video available, then go to first one instead');
-        vm.videoList_index = 0;
-        $scope.$apply();
+      if (vm.videoList_index > 0) vm.videoList_index--;
+      else if (vm.videoList_index === 0) vm.videoList_index = 4;
 
-        SetURL(videoId + vm.videoList_index);
-        StopVideoBehavior("Next Video");
-        PlayVideo(playerURL,CurrentPlayerState);
-      }
+      $scope.$apply();
+      SetURL(videoId + vm.videoList_index);
+      StopVideoBehavior(message);
+      PlayVideo(playerURL, CurrentPlayerState);
+    }
 
-      console.log('New current video : ', currentVideoIndex);
-    
+    function GoToNextItem(message) {
+      var CurrentPlayerState = webapis.avplay.getState();
+      var videoId = 'vid';
+
+      if (vm.videoList_index < 4) vm.videoList_index++;
+      else if (vm.videoList_index === 4) vm.videoList_index = 0;
+
+      $scope.$apply();
+      SetURL(videoId + vm.videoList_index);
+      StopVideoBehavior(message);
+      PlayVideo(playerURL, CurrentPlayerState);
     }
 
     //BIXBY
@@ -463,7 +459,7 @@ angular
 
     function PlayPreviousItemListener(action_handler, bundle_message) {
       var resultCode = [{ "result_code": "SUCCESS" }]; // "success", "fail", "notSupported"
-      console.log("PlayPreviousItemListener");
+      GoToPreviousItem("PlayPreviousItemListener");
       OncompleteActionExecution(action_handler, resultCode);
     }
    
@@ -492,9 +488,12 @@ angular
         //if(cmd === 'one') player.repeat('one');
         //else if(cmd === 'all') player.repeat('all');
         //else if(cmd === 'off') player.repeat('off');
-        
-        if(cmd === 'one') repeatMode = true;
-        else if (cmd === 'off') repeatMode = false;
+
+      if (cmd === 'one') {
+        repeatMode = true;
+        resultCode[0].user_response.responseSID = "Success_SetRepeat_one";
+      }
+      else if (cmd === 'off') repeatMode = false;
 
         OncompleteActionExecution(action_handler, resultCode);    
     }

@@ -25,10 +25,12 @@
             <div id="backward" class="controll-option" ng-class="{'focus':vm.level==0 && vm.mediaControl_index == 0}">
                 <img src="./img/back-icon.png">
             </div>
-            <div id="play" class="controll-option" ng-class="{'focus':vm.level==0 && vm.mediaControl_index == 1}" ng-hide="vm.isPlaying">
+            <div id="play" class="controll-option" ng-class="{'focus':vm.level==0 && vm.mediaControl_index == 1}"
+                ng-hide="vm.isPlaying">
                 <img src="./img/play-icon.png">
             </div>
-            <div id="pause" class="controll-option" ng-class="{'focus':vm.level==0 && vm.mediaControl_index == 1}" ng-hide="!vm.isPlaying">
+            <div id="pause" class="controll-option" ng-class="{'focus':vm.level==0 && vm.mediaControl_index == 1}"
+                ng-hide="!vm.isPlaying">
                 <img src="./img/pause-icon.png">
             </div>
             <div id="foward" class="controll-option" ng-class="{'focus':vm.level==0 && vm.mediaControl_index == 2}">
@@ -41,31 +43,31 @@
     </div>
     <div class="player-items-area" ng-class="{'player-items-area-focus':vm.level == 1}">
         <div class="options">
-            <div class='options-elems' id="vid0" ng-class="{'focus':vm.videoList_index==0 && vm.level > 0}">
+            <div class="options-elems" id="vid0" ng-class="{'focus':vm.videoList_index==0 && vm.level > 0}">
                 <div class="options-header">
                     <img src="./img/movie-icon.png">
                     <div class="title">Movie 1</div>
                 </div>
             </div>
-            <div class='options-elems' id="vid1" ng-class="{'focus':vm.videoList_index==1 && vm.level > 0}">
+            <div class="options-elems" id="vid1" ng-class="{'focus':vm.videoList_index==1 && vm.level > 0}">
                 <div class="options-header">
                     <img src="./img/movie-icon.png">
                     <div class="title">Movie 2</div>
                 </div>
             </div>
-            <div class='options-elems' id="vid2" ng-class="{'focus':vm.videoList_index==2 && vm.level > 0}">
+            <div class="options-elems" id="vid2" ng-class="{'focus':vm.videoList_index==2 && vm.level > 0}">
                 <div class="options-header">
                     <img src="./img/movie-icon.png">
                     <div class="title">Movie 3</div>
                 </div>
             </div>
-            <div class='options-elems' id="vid3" ng-class="{'focus':vm.videoList_index==3 && vm.level > 0}">
+            <div class="options-elems" id="vid3" ng-class="{'focus':vm.videoList_index==3 && vm.level > 0}">
                 <div class="options-header">
                     <img src="./img/movie-icon.png">
                     <div class="title">Movie 4</div>
                 </div>
             </div>
-            <div class='options-elems' id="vid4" ng-class="{'focus':vm.videoList_index==4 && vm.level > 0}">
+            <div class="options-elems" id="vid4" ng-class="{'focus':vm.videoList_index==4 && vm.level > 0}">
                 <div class="options-header">
                     <img src="./img/movie-icon.png">
                     <div class="title">Movie 5</div>

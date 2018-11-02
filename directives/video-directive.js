@@ -3,7 +3,6 @@
 angular
   .module("angular-app")
 
-  //directives names MUST start with Lowercase letter, no Spaces, and Camelcase
   .directive("finalTime", function() {
     var finalTime = {
       restrict: "EA",
