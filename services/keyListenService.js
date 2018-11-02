@@ -22,7 +22,8 @@ function keyListen($rootScope) {
       413:    'stop',
       417:    'ffoward',
       412:    'backward',
-      19:     'pause'
+      19:     'pause',
+      10233:  'nextItem'
     }
 
     if(keyCodes[code]){
@@ -39,7 +40,8 @@ function registerKeys() {
     "MediaPlayPause",
     "MediaFastForward",
     "MediaRewind",
-    "MediaStop"
+    "MediaStop",
+    "MediaTrackNext"
   ];
 
   usedKeys.forEach(

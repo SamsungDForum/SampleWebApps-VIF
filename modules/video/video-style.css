@@ -34,11 +34,17 @@
 }
 .options-header img {
   display: block;
-  width: 97%;
-  height: 95%;
+  width: 64px;
+  height: 64px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 5px;
+  margin-top: 15px;
+}
+.options-header .title {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  text-align: center;
+  margin-top: 20px;
 }
 .player-controllers {
   width: 1000px;

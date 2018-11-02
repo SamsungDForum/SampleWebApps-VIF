@@ -7,31 +7,41 @@ angular
     
     tizen.bixby.initialize();
 
-    var cmd_SetScreenFit = 'tvMediaControl.SetScreenFit';
-    var cmd_SkipForward = 'tvMediaControl.SkipForward';
-    var cmd_SkipBackward = 'tvMediaControl.SkipBackward';
-    var cmd_SetSubtitle = 'tvMediaControl.SetSubtitle';
+
+    var cmd_SetScreenFit          = 'tvMediaControl.SetScreenFit';
+    var cmd_SkipForward           = 'tvMediaControl.SkipForward';
+    var cmd_SkipBackward          = 'tvMediaControl.SkipBackward';
+    var cmd_SetSubtitle           = 'tvMediaControl.SetSubtitle';
+    var cmd_Restart               = 'tvMediaControl.Restart';
+    var cmd_SetRepeat             = 'tvMediaControl.SetRepeat';
+    var cmd_TrackPrevious         = 'tvMediaControl.TrackPrevious';    
 
     tizen.bixby.setAppStateRequestListener(OnAppStateRequestListener);
     tizen.bixby.setActionExecutionListener(cmd_SetScreenFit, SetScreenFitListener);
     tizen.bixby.setActionExecutionListener(cmd_SkipForward, SkipForwardListener);
     tizen.bixby.setActionExecutionListener(cmd_SkipBackward, SkipBackwardListener);
     tizen.bixby.setActionExecutionListener(cmd_SetSubtitle, SetSubtitleListener);
+    tizen.bixby.setActionExecutionListener(cmd_Restart, RestartListener);
+    tizen.bixby.setActionExecutionListener(cmd_SetRepeat, SetRepeatListener);
+    tizen.bixby.setActionExecutionListener(cmd_TrackPrevious, PlayPreviousItemListener);
     
-    var vm                      = this;
-    var player                  = document.getElementById('av-player');
-    var isFullScreen            = false;
-    var isProvisioned           = false; //URL is setted
-    var playerURL               = null;  //URL is not selected yet
-    var subtitleURL             = '';
+    
+    var vm                    = this;
+    var player                = document.getElementById('av-player');
+    var isFullScreen          = false;
+    var isProvisioned         = false;        //URL is setted
+    var playerURL             = null;         //URL is not selected yet
+    var subtitleURL           = '';
+    var repeatMode            = false;
 
-    vm.index           = 0;
-    vm.level           = 1;
-    vm.level_index     = 1;
-    vm.isPlaying       = false;         //Choose the current state icon in the player buttons
-    vm.isLoading       = false;         //Display the loading image when buffering
-    vm.PlayTime        = "00:00:00";
-    vm.currentPlayTime = "00:00:00";
+    vm.level                  = 1;             //focus on video list
+    vm.videoList_index        = 0;             //first video
+    vm.mediaControl_index     = 1;             //focus on play content icon
+    vm.isPlaying              = false;         //Choose the current state icon in the player buttons
+    vm.isLoading              = false;         //Display the loading image when buffering
+    vm.PlayTime               = "00:00:00";
+    vm.currentPlayTime        = "00:00:00";
+
     vm.currentProgress = {
       width: "0%"
     };
@@ -66,8 +76,13 @@ angular
       },
       onstreamcompleted: function() {
         StopVideoBehavior("[Stream completed]");
-        vm.level=1;
-        $scope.$apply();
+        if (repeatMode === false) {
+          vm.level = 1;
+          $scope.$apply();
+        }
+        else {
+          PlayVideo(playerURL, webapis.avplay.getState());
+        }
       },
       onerror: function(eventType) {
         console.log("event type error : " + eventType);
@@ -103,7 +118,7 @@ angular
           if (isFullScreen === false) {
             if (vm.level < 1) {
               vm.level++;
-              vm.level_index = 1;
+              vm.mediaControl_index = 1;
             }
             $scope.$apply();
           }
@@ -111,12 +126,12 @@ angular
         case "right":
           if (isFullScreen === false) {
             if (vm.level == 0) {
-              if (vm.level_index < 3) {
-                vm.level_index++;
+              if (vm.mediaControl_index < 3) {
+                vm.mediaControl_index++;
               }
             } else {
-              if (vm.index < 4) {
-                vm.index++;
+              if (vm.videoList_index < 4) {
+                vm.videoList_index++;
               }
             }
             $scope.$apply();
@@ -125,12 +140,12 @@ angular
         case "left":
           if (isFullScreen === false) {
             if (vm.level == 0) {
-              if (vm.level_index > 0) {
-                vm.level_index--;
+              if (vm.mediaControl_index > 0) {
+                vm.mediaControl_index--;
               }
             } else {
-              if (vm.index > 0) {
-                vm.index--;
+              if (vm.videoList_index > 0) {
+                vm.videoList_index--;
               }
             }
             $scope.$apply();
@@ -150,6 +165,9 @@ angular
           break;
         case "backward":
           JumpBackward(5);
+          break;
+        case "nextItem":
+          GoToNextItem("Next Item!");
           break;
         case "pause":
           vm.isPlaying = false;
@@ -180,27 +198,27 @@ angular
       // JSON File expected
       switch (id) {
         case "vid0":
-          playerURL = "http://your_video1.mp4";
+          playerURL = "http://your-video1.mp4";
           subtitleURL = '';
           break;
         case "vid1":
-        playerURL = "http://your_video2.mp4";
+        playerURL = "http://your-video2.mp4";
           subtitleURL = '';
           break;
         case "vid2":
-          playerURL = "http://your_video3.mp4";
+          playerURL = "http://your-video3.mp4";
           subtitleURL  = '';
           break;
         case "vid3":
-          playerURL = "http://your_video4.mp4";
+          playerURL = "http://your-video4.mp4";
           subtitleURL = '';
           break;
         case "vid4":
-          playerURL = "http://yourvideo5.mp4";
+          playerURL = "http://your-video5.mp4";
           subtitleURL = '';
           break;
         default:
-          break;          
+          break;
       }
     }
     
@@ -357,6 +375,34 @@ angular
         subtitle.innerHTML = '';
       }
     }
+
+    function GoToNextItem(message){
+      console.log(message);
+      var CurrentPlayerState = webapis.avplay.getState();
+      var currentVideoIndex = vm.videoList_index;
+      var videoId = 'vid';
+      if(vm.videoList_index < 4){
+        vm.videoList_index++;
+        $scope.$apply();
+
+        SetURL(videoId + vm.videoList_index);
+        StopVideoBehavior("Next Video");
+        PlayVideo(playerURL,CurrentPlayerState);
+      }
+      else if(vm.videoList_index === 4){
+        console.log('No more video available, then go to first one instead');
+        vm.videoList_index = 0;
+        $scope.$apply();
+
+        SetURL(videoId + vm.videoList_index);
+        StopVideoBehavior("Next Video");
+        PlayVideo(playerURL,CurrentPlayerState);
+      }
+
+      console.log('New current video : ', currentVideoIndex);
+    
+    }
+
     //BIXBY
 
     function SetScreenFitListener(action_handler, bundle_message) {
@@ -415,10 +461,48 @@ angular
       OncompleteActionExecution(action_handler, resultCode);
     }
 
+    function PlayPreviousItemListener(action_handler, bundle_message) {
+      var resultCode = [{ "result_code": "SUCCESS" }]; // "success", "fail", "notSupported"
+      console.log("PlayPreviousItemListener");
+      OncompleteActionExecution(action_handler, resultCode);
+    }
+   
+    function RestartListener(action_handler, bundle_message) {
+        var resultCode = [{"result_code":"SUCCESS"}]; // "success", "fail", "notSupported"
+        
+        console.log("Restart start : "+action_handler);
+        StopVideoBehavior('[Media Stop]');
+        PlayVideo(playerURL,webapis.avplay.getState());
+
+        OncompleteActionExecution(action_handler, resultCode);
+    }
+
+    function SetRepeatListener(action_handler, bundle_message) {
+        var resultCode = [{
+            "result_code": "SUCCESS",
+            "description": "SUCCESS ",
+            "user_response": {
+            "responseSID": "MediaControl_TV_30_1_TurnOffRepeatPlay_Function_Support_Y"
+            }
+        }]; // "success", "fail", "notSupported"
+        var cmd = bundle_message['mode'];
+        console.log("SetRepeatListener : mode : "+cmd);
+        
+        // TODO
+        //if(cmd === 'one') player.repeat('one');
+        //else if(cmd === 'all') player.repeat('all');
+        //else if(cmd === 'off') player.repeat('off');
+        
+        if(cmd === 'one') repeatMode = true;
+        else if (cmd === 'off') repeatMode = false;
+
+        OncompleteActionExecution(action_handler, resultCode);    
+    }
+
     function OncompleteActionExecution(action_handler, resultCode) {
       console.log("OnCompleteActionExcution");
       console.log(JSON.stringify(resultCode));
       tizen.bixby.completeActionExecution(action_handler, JSON.stringify(resultCode));
-  }
+    }
 
   });

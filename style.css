@@ -37,12 +37,12 @@ body {
   width: 100%;
   height: 200px;
 }
-.options-header img{
+/* .options-header img{
   position: relative;
   top: 30;
   width: 64px;
   height: 64px;
-}
+} */
 .focus {
   background-color: #242990;
   -webkit-animation: mymove 0.4s;

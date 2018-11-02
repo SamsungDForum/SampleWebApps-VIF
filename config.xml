@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<widget xmlns:tizen="http://tizen.org/ns/widgets" xmlns="http://www.w3.org/ns/widgets" id="http://yourdomain/TvApp" version="0.2.1" viewmodes="maximized">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/TvApp" version="0.2.1" viewmodes="maximized">
     <tizen:application id="cTjagTzkEW.TvApp" package="cTjagTzkEW" required_version="2.3"/>
     <content src="index.html"/>
     <feature name="http://tizen.org/feature/screen.size.all"/>
     <icon src="icon.png"/>
     <tizen:metadata key="http://samsung.com/tv/metadata/prelaunch.support" value="true"/>
     <tizen:metadata key="http://developer.samsung.com/tizen/metadata/bixby/companion-app/version" value="10000"/>
-    <tizen:metadata key="http://developer.samsung.com/tizen/metadata/bixby/companion-app/action-id" value="tvMediaControl.Restart,tvMediaControl.SkipBackward,tvMediaControl.SkipForward,tvMediaControl.SetPlayPosition,tvMediaControl.SetSubtitle,tvMediaControl.SetShuffle,tvMediaControl.SetScreenFit,tvMediaControl.Screenfit,tvMediaControl.SetSubtitle,tvMediaControl.SetZoom,tvMediaControl.Rotate,tvMediaControl.Set360Mode,tvMediaControl.ContinueWatching,tvMediaControl.SetRepeat,tvLauncher.Open"/>
+    <tizen:metadata key="http://developer.samsung.com/tizen/metadata/bixby/companion-app/action-id" value="tvMediaControl.Restart,tvMediaControl.Next,tvMediaControl.TrackPrevious,tvMediaControl.SkipBackward,tvMediaControl.SkipForward,tvMediaControl.SetPlayPosition,tvMediaControl.SetSubtitle,tvMediaControl.SetShuffle,tvMediaControl.SetScreenFit,tvMediaControl.Screenfit,tvMediaControl.SetSubtitle,tvMediaControl.SetZoom,tvMediaControl.Rotate,tvMediaControl.Set360Mode,tvMediaControl.ContinueWatching,tvMediaControl.SetRepeat,tvMediaControl.TrackPrevious,tvLauncher.Open"/>
     <name>TvApp</name>
     <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
     <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
