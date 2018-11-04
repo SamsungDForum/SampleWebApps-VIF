@@ -37,14 +37,14 @@ Skip to next / previous
 
 ##### 2. Actions with Parameters details
 
-|Command|Sample voice commands|a| |
+|Command|Sample voice commands|Parameter Name|Parameter Value|
 |-|-|-|- |
 |TrackPrevious|"previous" , "go to previous"|| |
 |Restart|"restart"|| |
 |SetRepeat|"repeat","repeat once", "repeat all" |mode|off,one,all |
-|SkipBackward|"rewind to [time]|offset|time value(seconds) |
-|SkipForward|"fast forward to [time]|offset|time value(seconds) |
-|SetPlayPosition|"jump to [time]|absolute Position|time value(seconds) |
+|SkipBackward|"rewind to 30 seconds"|offset|time value(seconds) |
+|SkipForward|"fast forward to 30 seconds"|offset|time value(seconds) |
+|SetPlayPosition|"jump to 1 minute 30 seconds|position|time value(seconds) |
 |SetSubtitle|"caption on", "caption off"|toggle|on, off |
 
 ### Steps to implement voice media controls
@@ -122,3 +122,17 @@ function SetPlayPosition(position){
  }
 }]
 ```
+|Exception Id|Predefined Exception Response|
+|-|-|
+|Exception_SkipBackward_offset_Invalid|Actually, I can't seem to go back by that much.<br> 재생할 수 없는 위치네요.|
+|Exception_SkipForward_offset_Invalid|Actually, I can't seem to go forward by that much. <br>재생할 수 없는 위치네요.|
+|Exception_SetPlayPosition_position_Invalid|	Seems like this video runs for #{HH:MM:SS}. <br> 이 영상의 재생 시간은 #{HH:MM:SS}입니다.|
+|Exception_SetSubtitle_on_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetSubtitle_Off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetShuffle_on_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetShuffle_off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetScreenFit_on_Unsupported|I'm afraid I can't do that.<br>지원되지 않는 기능이에요.|
+|Exception_SetScreenFit_off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetZoom_in_Max|Seems like we aren't able to zoom in any more.<br>가장 크게 확대한 상태예요.|
+|Exception_SetRepeat_one_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetRepeat_off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
