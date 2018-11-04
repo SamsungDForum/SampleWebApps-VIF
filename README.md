@@ -21,9 +21,8 @@ Skip to next / previous
 
 | Types | Description |
 |-------|-------------|
-|Key Events | Basic playback commands with Remote “play” , “pause”, “stop”, etc. |
-|Control events with Parameters| provides a set of callbacks which are linked to the actions with parameters “Set position to  1 minute 30 seconds”|
-|||
+|Key Events | Basic playback commands with Remote "play" , "pause", "stop", etc. |
+|Control events with Parameters| provides a set of callbacks which are linked to the actions with parameters "Set position to  1 minute 30 seconds"|
 
 ##### 1. KeyEvent
 
@@ -35,7 +34,6 @@ Skip to next / previous
 |fastword|"fast forward"|Fast forwards without duration. It needs to define default duration in the app.|
 |rewind|"rewind"|Rewinds without duration. It needs to define default duration in the app.|
 |Next|"next", "next item", "next episode"|Triggers the next command and plays the next media in the playlist|
-|||
 
 ##### 2. Actions with Parameters details
 
@@ -48,8 +46,6 @@ Skip to next / previous
 |SkipForward|"fast forward to [time]|offset|time value(seconds) |
 |SetPlayPosition|"jump to [time]|absolute Position|time value(seconds) |
 |SetSubtitle|"caption on", "caption off"|toggle|on, off |
-||||
-
 
 ### Steps to implement voice media controls
 
