@@ -4,8 +4,6 @@
 
 **Voice TV Control only support for voice-enabled 2019 Samsung Smart TV now.**
 
-**We will support 2018 voice-enabled TV later.**
-
 ### Supports media playback controls
 
 Play / Pause / Resume / Stop
