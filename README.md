@@ -31,12 +31,13 @@ Skip to next / previous
 |stop|"stop"|Stops the media|
 |fastword|"fast forward"|Fast forwards without duration. It needs to define default duration in the app.|
 |rewind|"rewind"|Rewinds without duration. It needs to define default duration in the app.|
-|Next|"next", "next item", "next episode"|Triggers the next command and plays the next media in the playlist|
+
 
 ##### 2. Actions with Parameters details
 
 |Command|Sample voice commands|Parameter Name|Parameter Value|
 |-|-|-|- |
+|Next|"next", "next item", "next episode"|Triggers the next command and plays the next media in the playlist|
 |TrackPrevious|"previous" , "go to previous"|| |
 |Restart|"restart"|| |
 |SetRepeat|"repeat","repeat once", "repeat all" |mode|off,one,all |
@@ -55,6 +56,7 @@ Skip to next / previous
 // Companion Version 
 // (For guarantee compatibility between Bixby and Companion-app)
 <metadata key="http://developer.samsung.com/tizen/metadata/bixby/companion-app/version" value="10000"/>
+<metadata key="http://developer.samsung.com/tizen/metadata/bixby/sdk/version" value="v1.0-beta.1.4"/>
 ```
 
 - Registering Action ( Not all of actions need to be implemented)
@@ -69,12 +71,12 @@ Skip to next / previous
 ```javascript
 function onCreate(){
    /* Initialize voice control interface. */
-   tizen.bixby.initialize();
+   webapis.bixby.initialize();
 }
 
 function onTerminate(){
    /* Release all resources. */
-   tizen.bixby.deinitialize();
+   webapis.bixby.deinitialize();
 }
 
 ```
@@ -83,7 +85,7 @@ function onTerminate(){
 
 ```javascript
 // register action execution callback for a control action 
-tizen.bixby.setActionExecutionListener(‘SetPlayPosition’, OnActionReceive)
+webapis.bixby.setActionExecutionListener(‘SetPlayPosition’, OnActionReceive)
 
 // Actions callbacks
 function OnActionReceive (action_id, bundle_message) {
@@ -92,7 +94,7 @@ function OnActionReceive (action_id, bundle_message) {
     action_result = SetPlayPosition(bundle_message[‘position’])
   }
   // retruns action result
-  tizen.bixby.completeActionExecution(action_result) 
+  webapis.bixby.completeActionExecution(action_result) 
 }
 
 function SetPlayPosition(position){
@@ -131,6 +133,12 @@ function SetPlayPosition(position){
 |Exception_SetShuffle_off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
 |Exception_SetScreenFit_on_Unsupported|I'm afraid I can't do that.<br>지원되지 않는 기능이에요.|
 |Exception_SetScreenFit_off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_SetZoom_in_Unsupported|I'm afraid I can't do that.<br>지원되지 않는 기능이에요.|
+|Exception_SetZoom_out_Unsupported|I'm afraid I can't do that.<br>지원되지 않는 기능이에요.|
 |Exception_SetZoom_in_Max|Seems like we aren't able to zoom in any more.<br>가장 크게 확대한 상태예요.|
+|Exception_SetZoom_out_Min|Seems like we aren't able to zoom out any more.<br>가장 작게 축소한 상태예요.|
+|Exception_SetRepeat_all_Unsupported|I'm afraid I can't do that.<br>지원되지 않는 기능이에요.
 |Exception_SetRepeat_one_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
 |Exception_SetRepeat_off_Unsupported|I'm afraid I can't do that. <br>지원되지 않는 기능이에요.|
+|Exception_ContinueWatching_Unspported|I'm afraid I can't do that.<br>지원되지 않는 기능이에요.|
+
