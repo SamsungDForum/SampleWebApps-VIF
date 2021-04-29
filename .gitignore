@@ -1,3 +1,7 @@
-.settings/
-.sign/
-*.wgt
+#setting to ignore tizen auto created files
+.settings
+/.sign
+*.project
+/.tproject
+.sign
+*.svg
