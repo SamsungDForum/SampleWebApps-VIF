@@ -1,13 +1,11 @@
 /******************** GLOBAL VARIABLES ********************/
 var player; // Video player
+var playPauseB = document.getElementById("control0"); // PlayPause button
+var volume = document.getElementById("control9"); // Mute button
 var timeElapsed = document.getElementById('time-elapsed'); // Current play time of video
 var duration = document.getElementById('duration'); // Total play time of video
 // List of video links that will stream on the media player
-var vid =["http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4", 
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", 
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", 
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"];
+var vid =["http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4", "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4", "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4", "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"];
 var controlIndex = 0; // Position index of current player control button
 var playIndex = 0; // Position index of current selected playlist video
 var currentlyPlaying = 0; // Index of currently playing video from the playlist
@@ -24,6 +22,9 @@ var ffTooltipTimer; // SetTimeout for the fast forward tooltip
 var cmd_Restart = 'tvMediaControl.Restart';
 var cmd_TrackNext = 'tvMediaControl.TrackNext';
 var cmd_TrackPrevious = 'tvMediaControl.TrackPrevious';
+var cmd_SkipForward = 'tvMediaControl.SkipForward';
+var cmd_SkipBackward = 'tvMediaControl.SkipBackward';
+var cmd_SetPlayPosition = 'tvMediaControl.SetPlayPosition';
 
 /******************** FUNCTIONS ********************/
 // Register remote control keys in order for the application to react accordingly
@@ -52,9 +53,13 @@ function registerKeys(){
 function startplayer(){
 	webapis.bixby.initialize();
 	registerKeys();
+	// Register all the deep link actions that your app requires
 	webapis.bixby.setActionExecutionListener(cmd_Restart, reload_vid);
 	webapis.bixby.setActionExecutionListener(cmd_TrackNext, next_vid);
 	webapis.bixby.setActionExecutionListener(cmd_TrackPrevious, previous_vid);
+	webapis.bixby.setActionExecutionListener(cmd_SkipForward, skipForward);
+	webapis.bixby.setActionExecutionListener(cmd_SkipBackward, skipBackward);
+	webapis.bixby.setActionExecutionListener(cmd_SetPlayPosition, setPlayPosition);
 	player = document.getElementById("video_player");
 	player.controls = false;
 	player.addEventListener('timeupdate', updateTimeElapsed);
@@ -106,7 +111,7 @@ function stop_vid(){
 	console.log("PLAYER STOPPED");
 }
 // Load and play the previous video on the playlist, if the current video is the first one on the playlist, it will reload and replay
-function previous_vid(action_handler){
+function previous_vid(action_id){
 	// Action Complete Result - "success", "fail", "notSupported"
 	var resultCode = [{"result_code":"SUCCESS"}];
 	rewinding = false;
@@ -126,11 +131,11 @@ function previous_vid(action_handler){
 		  playPauseB.src = "images/play_selected.jpg";
 		  playPause_vid();
 		};
-	OncompleteActionExecution(action_handler, resultCode);
+	OncompleteActionExecution(action_id, resultCode);
 	console.log("PREVIOUS VIDEO LOADED");
 }
 // Load and play the next video on the playlist, if the video is the last one on the playlist, it will reload and replay
-function next_vid(action_handler){
+function next_vid(action_id){
 	// Action Complete Result - "success", "fail", "notSupported"
 	var resultCode = [{"result_code":"SUCCESS"}];
 	rewinding = false;
@@ -150,30 +155,69 @@ function next_vid(action_handler){
 		  playPauseB.src = "images/play_selected.jpg";
 		  playPause_vid();
 		};
-		OncompleteActionExecution(action_handler, resultCode);
-		console.log("NEXT VIDEO LOADED");
+	OncompleteActionExecution(action_id, resultCode);
+	console.log("NEXT VIDEO LOADED");
 }
-// Video will rewind 10 seconds, if the current play time is less than 10 seconds, the video will start from the beginning
-function skipBackward(){
+// Video will rewind by 'offset' seconds or by 10 seconds if there is no offset
+function skipBackward(action_id, bundle_message){
+	// Action Complete Result - "success", "fail", "notSupported"
+	var resultCode = [{"result_code":"SUCCESS"}];
 	rewinding = false;
 	fforwarding = false;
-	if(player.currentTime < 10){
-		player.currentTime = 0;
+	if(typeof bundle_message !== "undefined"){
+		if(bundle_message.hasOwnProperty("offset")){
+			if(player.currentTime < bundle_message.offset){
+				player.currentTime = 0;
+			} else {
+				player.currentTime -= parseFloat(bundle_message.offset); // Added parseFloat since this line would not work without it	
+			}	
+		}
 	} else {
-		player.currentTime -= 10;	
+		if(player.currentTime < 10){
+			player.currentTime = 0;
+		} else {
+			player.currentTime -= 10;	
+		}	
 	}
-	console.log("SKIPPED BACKWARDS");
+	OncompleteActionExecution(action_id, resultCode);
+	console.log("SKIPPED BACKWARDS BY: " + bundle_message.offset);
 }
-// Video will fastforward 10 seconds, if the current play time is less than 10 until total play time, the video will stop playing 
-function skipForward(){
+// Video will fastforward by 'offset' seconds or by 10 seconds if there is no offset 
+function skipForward(action_id, bundle_message){
+	// Action Complete Result - "success", "fail", "notSupported"
+	var resultCode = [{"result_code":"SUCCESS"}];
 	rewinding = false;
 	fforwarding = false;
-	if(player.currentTime > (player.duration - 10)){
-		stop_vid();
+	if(typeof bundle_message !== "undefined"){
+		if(bundle_message.hasOwnProperty("offset")){
+			if(player.currentTime > (player.duration - bundle_message.offset)){
+				stop_vid();
+			} else {
+				player.currentTime += parseFloat(bundle_message.offset); // Added parseFloat since this line would not work without it
+			}
+		}	
 	} else {
-		player.currentTime += 10;
+		if(player.currentTime > (player.duration - 10)){
+			stop_vid();
+		} else {
+			player.currentTime += 10;
+		}	
 	}
-	console.log("SKIPPED FORWARD");
+	OncompleteActionExecution(action_id, resultCode);
+	console.log("SKIPPED FORWARD BY: " + bundle_message.offset);
+}
+// Set the new play position of the video
+function setPlayPosition(action_id, bundle_message){
+	var resultCode = [{"result_code":"SUCCESS"}];
+	if(bundle_message.position !== undefined){
+		rewinding = false;
+		fforwarding = false;
+		if(player.duration > bundle_message.position){
+			player.currentTime = bundle_message.position;
+		}
+	}
+	OncompleteActionExecution(action_id, resultCode);
+	console.log("SET PLAY POSITION: " + bundle_message.position);
 }
 // The video will continuously rewind until it reaches current time 00:00 or if the user presses another player control button
 function rewind_vid(){
@@ -229,14 +273,14 @@ function forward_vid(){
 	console.log("FAST FORWARD");
 }
 // The current video will play from the beginning
-function reload_vid(action_handler){
+function reload_vid(action_id){
 	// Action Complete Result - "success", "fail", "notSupported"
 	var resultCode = [{"result_code":"SUCCESS"}];
 	console.log("RELOAD FUNCTION CALLED");
 	rewinding = false;
 	fforwarding = false;
 	player.currentTime = 0;
-	OncompleteActionExecution(action_handler, resultCode);
+	OncompleteActionExecution(action_id, resultCode);
 }
 // The current video volume will be muted or unmuted
 function mute(){
@@ -425,10 +469,6 @@ var init = function () {
     startplayer();
 };
 
-// Add button listeners
-var playPauseB = document.getElementById("control0");
-var volume = document.getElementById("control9");
-
 // Remote control button listener
 document.body.addEventListener('keydown', function(event) {
 	switch (event.keyCode) {
@@ -533,10 +573,10 @@ document.body.addEventListener('keydown', function(event) {
 	}
 });
 // On complete action handler
-function OncompleteActionExecution(action_handler, resultCode) {
+function OncompleteActionExecution(action_id, resultCode) {
 	console.log("OnCompleteActionExcution");
 	console.log(JSON.stringify(resultCode));
-	webapis.bixby.completeActionExecution(action_handler, JSON.stringify(resultCode));
+	webapis.bixby.completeActionExecution(action_id, JSON.stringify(resultCode));
 }
 // Initialize script
 window.onload = init;
