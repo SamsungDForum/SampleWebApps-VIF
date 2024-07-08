@@ -1,16 +1,23 @@
 * {
     font-family: Lucida Sans, Arial, Helvetica, sans-serif;
 }
+
 html {
-	height: 95%;
+	height: 90em;
+	scroll-behavior: smooth;
+	overflow: hidden;
 }
 
 body {
-    /*background-color: #000066;*/
-    height: 95%;
-    background-image: linear-gradient(rgb(0, 0, 179), rgb(0, 0, 77));
+	position: fixed;
+	height: 100%;
+	width: 100%;
+    margin: 0;
+    padding-bottom: 1em;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    background-image: linear-gradient(rgba(3, 80, 99, 1), rgba(2, 60, 74, 1));
+    overflow: hidden;
 }
 
 header h1 {
@@ -26,174 +33,460 @@ header h2 {
 }
 
 footer {
-	position: relative;
-	margin-top: 1em;
-	margin-left: auto;
-	margin-right: auto;
+	margin-top: 2em;
 }
 
 footer p {
     text-align: center;
-    font-size: 1.2em;
+    font-size: 1em;
     color: white;
-    padding: 2em;
 }
 
-#container {
-	margin: auto;
-	width: 95%;
-	height: 95%;
-}
-
-#wrapper {
-	margin-top: 2em;
-	width: 100%;
+footer pre {
 	text-align: center;
+    font-size: 0.5em;
+    color: white;
 }
 
-#player_wrapper {
-	width: 64em;
-	height: 40em;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-#playlist_wrapper {
-	display: flex;
-	justify-content: center;
-	width: 60%;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 2em;
-}
-
-#video_player {
-	background-color: black;
-	width: 1024px;
-	height: 576px;
-}
-
-#player_controls {
+.title {
 	text-align: left;
-	background-color: white;
-	margin-top: -5px;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	width: 100%;
+	position: absolute;
+	bottom: 1.5em;
+	left: 0.35em;
+	font-weight: bold;
+	color: white;
+	font-size: 2em;	
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 12em;
+	height: 2em; 
 }
 
-input[type="image"] {
-	height: 3em;
-	width: 3em;
-	margin-left: 0.5em;
-	padding: 0.5em;
-	border-radius: 50%;
-}
-
-input[type="range"] {
-	position: relative;
-	float: right;
-	margin-top: 1em;
-}
-
-.video input[type="image"] {
-	width: 8em;
-	height: 8em;
-	border-radius: 0;
-}
-
-.video {
-	width: 10em;
-	height: 10em;
-	text-align: center;
-	padding: 1em;
-	color: #fff;	
-	border-bottom: 4px solid transparent;
-}
-
-#vol_mute {
-	position: relative;
-	float: right;
-	width: 2em;
-}
-
-.time {
+.genre {
+	text-align: left;
+	position: absolute;
+	bottom: 0.5em;
+	left: 0.5em;
+	color: white;
 	font-size: 1.5em;
-	margin-left: 1em;
-	margin-right: 1em;
-	margin-top: 0.5em;
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 10em;
+	height: 2em;
+}
+
+.vod {
+	position: absolute;
+	right: 0.5em;
+	bottom: 0.5em;
+	color: white;
+	font-size: 1.5em;
+	width: 6em;
+	height: 2em;
+}
+
+.boldText {
+	font-weight: bold;
+}
+
+.alertMessage {
+	color: white;
+	font-size: 2em;
+}
+
+.poster {
+	padding-top: 0.5em;
+	width: 24.5em;
+	height: 12em;
+}
+
+.card {
+	position: absolute;
+	width: 24.5em;
+	height: 20em;
+	text-align: center;
+	font-family: "Arial", "Helvetica", sans-serif;
+	margin-top: 1em;
+	padding-left: 0.6em;
+	padding-right: 0.6em;
+	background-color: rgba(3, 61, 73, 0.8);
+	transition: left 0.2s;
+	outline: none;
+}
+
+.card:focus {
+	transform: scale(1.05);
+	background-color: white; 
+}
+
+.card:active {
+	transform: scale(1.05);
+	background-color: white;
+}
+
+.card:focus > .title {
+	color: black;
+}
+
+.card:focus > .genre {
+	color: black;
+}
+
+.card:focus > .vod {
+	color: black;
+}
+
+.card:focus > .dots {
+	background: url("images/blackDots.png");
+}
+
+.mCard {
+	visibility: visible;
+	position: absolute;
+	width: 24.5em;
+	height: 20em;
+	text-align: center;
+	font-family: "Arial", "Helvetica", sans-serif;
+	margin-top: 1em;
+	padding-left: 0.6em;
+	padding-right: 0.6em;
+	background-color: rgba(3, 61, 73, 0.8);
+	transition: left 0.2s;
+	outline: none;
+}
+
+.mCard:focus {
+	transform: scale(1.05);
+	background-color: white; 	
+}
+
+.mCard:active {
+	transform: scale(1.05);
+	background-color: white;
+}
+
+.mCard:focus > .title {
+	color: black;
+}
+
+.mCard:focus > .genre {
+	color: black;
+}
+
+.mCard:focus > .vod {
+	color: black;
+}
+
+.mCard:focus > .dots {
+	background: url("images/blackDots.png");
+}
+
+.tCard {
+	visibility: visible;
+	position: absolute;
+	width: 24.5em;
+	height: 20em;
+	text-align: center;
+	font-family: "Arial", "Helvetica", sans-serif;
+	margin-top: 1em;
+	padding-left: 0.6em;
+	padding-right: 0.6em;
+	background-color: rgba(3, 61, 73, 0.8);
+	transition: left 0.2s;
+	outline: none;
+}
+
+.tCard:focus {
+	transform: scale(1.05);
+	background-color: white; 	
+}
+
+.tCard:active {
+	transform: scale(1.05);
+	background-color: white;
+}
+
+.tCard:focus > .title {
+	color: black;
+}
+
+.tCard:focus > .genre {
+	color: black;
+}
+
+.tCard:focus > .vod {
+	color: black;
+}
+
+.tCard:focus > .dots {
+	background: url("images/blackDots.png");
+}
+
+.dots {
 	position: relative;
-	float: right;
+	bottom: 0.1em;
+	display: inline-block;
+	height: 0.5em;
+	width: 1.8em;
+	vertical-align: middle;
 }
 
-#rewindTooltip {
-  visibility: hidden;
-  display: none;
+.mDots {
+	position: relative;
+	bottom: 0.1em;
+	display: inline-block;
+	height: 0.5em;
+	width: 1.8em;
+	vertical-align: middle;
 }
 
-/* Rewind tooltip */
-.showRewind {
-  visibility: visible;
-  display: block;
-  width: 220px;
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 45%;
-  left: 31.2%;
-  margin-left: -60px;
-  opacity: 1;
-  font-size: 1.2em;
+.tDots {
+	position: relative;
+	bottom: 0.1em;
+	display: inline-block;
+	height: 0.5em;
+	width: 1.8em;
+	vertical-align: middle;
 }
 
-/* Bottom arrow for rewind tooltip */
-.showRewind::after {
-  content: " ";
-  position: absolute;
-  top: 95%;
-  left: 90%;
-  margin-left: -5px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: #fff transparent transparent transparent;
+#searchBar {
+	width: 18em;
+	font-size: 3em;
+	size: 500;
+  	padding-left: 0.5em;
+  	padding-right: 0.5em;
+  	padding-top: 0.2em;
+  	padding-bottom: 0.2em;
+  	margin-left: 1em;
+  	border: none;
+  	border-radius: 0.8em;
+  	outline: none;
+  	position: fixed;
 }
 
-#ffTooltip {
-  visibility: hidden;
-  display: none; 
+#resultTitle {
+	position: fixed;
+	text-align: left;
+	width: 95%;
+	height: 3em;
+	color: white;
+  	left: 34px;
+  	top: 150px;
+  	display: block;
 }
 
-/* Fast forward tooltip */
-.showFF {
-  visibility: visible;
-  display: block;
-  width: 220px;
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  position: absolute;
-  z-index: 1;
-  bottom: 45%;
-  left: 43.6%;
-  margin-left: -60px;
-  opacity: 1;
-  font-size: 1.2em;
+#resultTitle p {
+	position: absolute;
+	left: 0;
+	font-size: 2em;
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
-/* Bottom arrow for fast forward tooltip */
-.showFF::after {
-  content: " ";
-  position: absolute;
-  top: 95%;
-  left: 10%;
-  margin-left: -5px;
-  border-width: 10px;
-  border-style: solid;
-  border-color: #fff transparent transparent transparent;
+#inputResult {
+	scroll-behavior: smooth;
+	position: relative;
+	float: left;
+	width: 100%;
+	text-align: center;
+	min-height: 22em;
+	overflow: hidden;
+}
+
+#inputResult::-webkit-scrollbar {
+	display: none;
+}
+
+#movie {
+	position: relative;
+	float: left;
+	height: 3em;
+	visibility: hidden;
+	text-align: left;
+	width: 95%;
+	color: white;
+  	left: 34px;
+  	/*top: 34em;*/
+  	display: block;
+}
+
+#movie p {
+	position: absolute;
+	left: 0;
+	font-size: 2em;
+}
+
+#movieResult {
+	scroll-behavior: smooth;
+	position: relative;
+	float: left;
+	width: 100%;
+	visibility: hidden;
+	text-align: center;
+	min-height: 22em;
+	margin-top: 1em;
+	overflow: hidden;
+}
+
+#tv {
+	position: relative;
+	float: left;
+	height: 3em;
+	visibility: hidden;
+	text-align: left;
+	width: 95%;
+	color: white;
+  	left: 34px;
+  	/*top: 61em;*/
+  	display: block;
+}
+
+#tv p {
+	position: absolute;
+	left: 0;
+	font-size: 2em;
+}
+
+#tvResult {
+	scroll-behavior: smooth;
+	position: relative;
+	float: left;
+	width: 100%;
+	visibility: hidden;
+	text-align: center;
+	min-height: 24em;
+	margin-top: 1em;
+	overflow: hidden;
+}
+
+#topBar {
+	position: absolute;
+  	top: 2em;
+  	width: 100%;
+	display: block;
+}
+
+#topBar input {
+	position: absolute;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+#mainContent {
+	scroll-behavior: smooth;
+	top: 12em;
+	text-align: center;
+	height: 840px;
+	width: 100%;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	position: fixed;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#mainContent::-webkit-scrollbar {
+	display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#mainContent {
+	-ms-overflow-style: none;  /* IE and Edge */
+	scrollbar-width: none;  /* Firefox */
+}
+
+/* TOAST IMPLEMENTATION */
+#toast {
+    visibility: hidden;
+    width: 64em;
+    height: 12em;
+    margin: auto;
+    background-color: rgba(77, 77, 77, 1);
+    color: #fff;
+    text-align: left;
+    border-radius: 1em;
+    position: absolute;
+    z-index: 999;
+    left: 0;
+    right:0;
+    bottom: 1em;
+    font-size: 1.6em;
+}
+
+#toast #img{
+	width: 50px;
+	height: 50px;
+    float: left;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    box-sizing: border-box;
+    background-color: #111;
+    color: #fff;
+}
+
+#toast #desc{
+	width: 100%;
+	height: 100%;
+    color: #fff;
+    padding: 1em;
+    text-align: center;
+}
+
+#toast #desc p strong{
+	font-weight: bold;
+}
+
+#toast.show {
+    visibility: visible;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes expand {
+    from {min-width: 50px} 
+    to {min-width: 350px}
+}
+
+@keyframes expand {
+    from {min-width: 50px}
+    to {min-width: 350px}
+}
+
+@-webkit-keyframes stay {
+    from {min-width: 350px} 
+    to {min-width: 350px}
+}
+
+@keyframes stay {
+    from {min-width: 350px}
+    to {min-width: 350px}
+}
+@-webkit-keyframes shrink {
+    from {min-width: 350px;} 
+    to {min-width: 50px;}
+}
+
+@keyframes shrink {
+    from {min-width: 350px;} 
+    to {min-width: 50px;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 60px; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 60px; opacity: 0;}
 }
