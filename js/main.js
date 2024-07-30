@@ -397,7 +397,7 @@ function filter(vt){
 		console.log("ADDED CONTENT TYPE VALUE");
 	}
 	// Print out the parameters that were obtained from the voice interaction framework search feature 
-	document.getElementById("desc").innerHTML += toastText;
+	document.getElementById("desc").innerHTML = toastText;
 	result = [];
 	// Begin the process of getting film titles that correspond to the user's input
 	var tempResult = [];
@@ -887,14 +887,9 @@ function voiceInteractionInit(){
 				}
 				return bSupport;
 			},
-			oncontinuewatching: function(){
-				document.getElementById("desc").innerHTML += "<p>CONTINUE WATCHING</p>";
-				launch_toast();
-				return true;
-			},
 			onskipad: function(){
 				console.log("ON SKIP AD");
-				document.getElementById("desc").innerHTML += "<p><strong>ACTION:</strong> onskipad<br><strong>PARAMETERS:</strong> NONE</p>";
+				document.getElementById("desc").innerHTML = "<p><strong>ACTION:</strong> onskipad<br><strong>PARAMETERS:</strong> NONE</p>";
 				launch_toast();
 				return true;
 			}
@@ -915,6 +910,9 @@ function voiceInteractionInit(){
 }
 // Initialize function
 var init = function () {
+	// Get Tizen version of TV device
+	var platformVersion = tizen.systeminfo.getCapabilities().platformVersion;
+	console.log("TIZEN: " + platformVersion);
 	if(localStorage.getItem("vToastMessageIsOn") === null){
 		toastMessageIsOn = true;
 	} else {
@@ -924,7 +922,7 @@ var init = function () {
 			toastMessageIsOn = true;
 		}
 	}
-    console.log('Version 1.14 | init() called');
+    console.log('Version 1.15 | init() called');
     registerKeys();
     document.getElementById('searchBar').placeholder = LANG_JSON_DATA.input_placeholder;
     voiceInteractionInit();
