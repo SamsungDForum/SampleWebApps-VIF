@@ -10,8 +10,8 @@
 * Alternative forms of navigation include "Next Page", "Previous Page" and "Show More" when navigating the search page with multiple content results.
 #### Selecting by title
 * The user can press ENTER on the remote control while the desired item has focus in order to select it.
-* If a certain item is included in the results list, the user may utter the title name in order to select it. (UPCOMING FEATURE)
-* Example: "Avatar" will result in the selection of the film Avatar and will automatically bring up the details page for that item. (UPCOMING FEATURE)
+* If a certain item is included in the results list, the user may utter the title name in order to select it.
+* Example: "Avatar" will result in the selection of the film Avatar. For testing purposes, the current result is represented by a toast message.
 #### Ordinal selection
 * The user can select an item by calling its ordinal position ("first", "second", "fifth", "last", etc.).
 * Example: When selecting the third item in the list of results, simply saying "third" should automatically bring up the details page for that item.
@@ -97,7 +97,6 @@ webapis.voiceinteraction.setCallback({
 | "Fastforward" | Generate the Remote Control Key, "MediaFastForward" | boolean ? onfastforward () |
 | "Rewind" | Generate the Remote Control Key, "MediaRewind" | boolean ? onrewind () |
 | "Pause" | Generate the Remote Control Key, "MediaPlayPause" | boolean ? onpause () |
-| "Exit" | Generate the Remote Control Key, "Exit" | boolean ? onexit () |
 
 Media Control example code:
 
@@ -112,7 +111,7 @@ webapis.voiceinteraction.setCallback({
     },
     ...
 ```
-NOTE: All callbacks except AppState and OnSearchCollection have a return value that represents the flag for support. If the return value is false or there isn't a callback function for the utterance, Samsung TV will perform its basic function.
+NOTE: All callbacks except AppState have a return value that represents the flag for support. If the return value is false or there isn't a callback function for the utterance, Samsung TV will perform its basic function.
 
 8. In order to support navigation & selection control via voice, the application should have the following callbacks:
 
@@ -189,12 +188,26 @@ webapis.voiceinteraction.setCallback({
 | Utterance | Callback |
 | --------- | -------- |
 | "Search NCIS", "Search Titanic" | boolean ? onsearch(VoiceSearchTerm voiceSearchTerm) |
-| "NCIS", "Titanic" | boolean ? ontitleSelection(string title) (UPCOMING FEATURE) |
+| "NCIS", "Titanic" | boolean ? ontitleSelection(string title) |
+| - | DOMString ? onrequestcontentcontext() |
 
  Search & OnTitleSelection example code:
  ```
  webapis.voiceinteraction.setCallback({
     ...
+    onrequestcontentcontext : function () {
+    	Log("onrequestcontentcontext ");
+    	var result = [];
+	    try {
+	      var item = webapis.voiceinteraction.buildVoiceInteractionContentContextItem(1,1,"test", ["test set", "test title"], true);
+	      result.push(item);
+	      var item2 = webapis.voiceinteraction.buildVoiceInteractionContentContextItem(2,1,"test2", ["test set 2", "test title 2"], false);
+	      result.push(item2);
+	    } catch (e) {
+	      console.log("exception [" + e.code + "] name: " + e.name + " message: " + e.message);
+	    }
+ 		return webapis.voiceinteraction.buildVoiceInteractionContentContextResponse(result);
+	}
     ontitleselection : function (title) {
         Log("OnTitleSelection" + title);
         //For "Select NCIS" utterance, title is "NCIS"
@@ -218,4 +231,5 @@ webapis.voiceinteraction.setCallback({
     }
     …
 ```
+Note: The onrequestcontentcontext function is required in order for ontitleselection to function properly. If title selection is a desired feature for your app, make sure to implement both onrequestcontentcontext and ontitleselection functions. 
  
