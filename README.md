@@ -3,7 +3,7 @@
 > [!TIP]
 > Supports remote control functions and voice commands
 
-![Example screenshot](media/example1.jpg)
+![Example screenshot](docs/media/example1.png)
 
 ## How to use
 
