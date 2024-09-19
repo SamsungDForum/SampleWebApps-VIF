@@ -78,8 +78,7 @@
 |Function|Utterances|Expected Result|
 |--------|----------|---------------|
 |`onplay`|"Play", "Resume"|Reproduce the currently available media.|
-|`onpause`|"Pause"|If media is playing, pause the content.|
-|`onstop`|"Stop"|If media is playing, stop the content.|
+|`onpause`|"Pause", "Stop"|If media is playing, pause the content.|
 |`onfastforward`|"Fast forward", "Fast forward 1 minute", "Fast forward 30 seconds"|If media is playing or paused, fast forward content depending on the command parameters.|
 |`onrewind`|"Rewind", "Rewind 2 minutes", "Rewind 20 seconds"|If media is playing or paused, rewind content depending on the command parameters.|
 |`onskipforward`|"Skip forward", "Skip forward 40 seconds"|If media is playing or paused, skip the content forward (similar to onfastforward).|
