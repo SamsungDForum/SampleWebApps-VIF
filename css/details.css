@@ -1,336 +1,468 @@
 * {
-    font-family: Lucida Sans, Arial, Helvetica, sans-serif;
+  font-family: Lucida Sans, Arial, Helvetica, sans-serif;
 }
 
 html {
-	width: 100%;
-	height: 95%;
+  width: 100%;
+  height: 100%;
 }
 
 body {
-	height: 100%;
-	width: 100%;
-    margin: 0;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-image: linear-gradient(rgba(3, 80, 99, 1), rgba(2, 60, 74, 1));
-    overflow: hidden;
+  height: 100%;
+  margin: 0;
+  background-image: linear-gradient(#0b1a1f, #07345e);
+  overflow: hidden;
 }
 
 header h1 {
-    font-size: 108px;
-    margin: 0px;
+  font-size: 108px;
+  margin: 0px;
 }
 
 header h2 {
-    font-size: 54px;
-    margin: 0px;
-    color: #888;
-    font-style: italic;
+  font-size: 54px;
+  margin: 0px;
+  color: #888;
+  font-style: italic;
 }
 
 footer {
-	margin-top: 1em;
+  margin-top: 1em;
 }
 
 footer p {
-    text-align: center;
-    font-size: 1em;
-    color: white;
+  text-align: center;
+  font-size: 1em;
+  color: white;
 }
 
 footer pre {
-	text-align: center;
-    font-size: 0.5em;
-    color: white;
+  text-align: center;
+  font-size: 0.5em;
+  color: white;
 }
 
 #container {
-	height: 100%;
-	width: 100%;
+  width: -webkit-fill-available;
+  scroll-behavior: smooth;
+  overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 #container h1 {
-	font-size: 4em;
+  font-size: 5em;
+  margin-bottom: 0px;
 }
 
 #container p {
-	font-size: 1em;
+  font-size: 1em;
 }
 
 #top-container {
-	position: relative;
-	width: 95%;
-	color: white;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 2em;
-	margin-bottom: 2em;
-	height: 45%;
+  color: white;
+  padding-left: 88px;
 }
 
 #poster-container {
-	position: relative;
-	float: left;
-	width: 34%;
+  float: left;
 }
 
 #poster {
-	width: 32.5em;
-	height: 20em;
-	min-height: 12em;
-	min-width: 24.5em;	
+  border-radius: 20px;
 }
 
 #title-container {
-	position: relative;
-	float: right;
-	width: 65%;
-}	
-
-#title {
-	position: relative;
-} 	
-
-#details {
-	position: relative;
-}	
+  width: 73.5%;
+  padding-left: 650px;
+}
 
 #details p {
-	font-size: 1.5em;
+  font-size: 1.5em;
 }
-	
+
 #available {
-	visibility: hidden;
-	position: relative;
+  visibility: hidden;
+  position: relative;
 }
 
 #available p {
-	font-size: 1.5em;
+  font-size: 1.5em;
+}
+
+#more-content-title {
+  height: 10%;
+  background-color: #0d1e3a;
+}
+
+#more-content-title p {
+  color: white;
+  font-size: 2em;
+  padding-left: 88px;
+  padding-top: 40px;
+  margin: 0px 0px 0px 0px;
+}
+
+#more-content {
+  position: absolute;
+  width: 100%;
+  scroll-behavior: smooth;
+  background-color: #0d1e3a;
+  display: flex;
+  float: left;
+  height: 30%;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 30px;
+}
+
+#more-content::-webkit-scrollbar {
+  display: none;
+}
+
+.poster {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 15px;
+}
+
+.card {
+  height: 320px;
+  width: 300px;
+  position: relative;
+  text-align: center;
+  font-family: "Arial", "Helvetica", sans-serif;
+  transition: left 0.2s;
+  outline: none;
+}
+
+.card:focus {
+  margin-left: -5px;
+  margin-top: -5px;
+}
+
+.card:focus img {
+  zoom: 1;
+  border: 5px solid white;
+  border-radius: 15px;
+}
+
+.card:active img {
+  zoom: 1;
+  border: 5px solid white;
+  border-radius: 15px;
+}
+
+.card .title {
+  color: white;
+  font-size: 30px;
+  position: absolute;
+  padding-left: 20px;
 }
 
 #bottom-container {
-	width: 95%;
-	height: 50%;
-	position: relative;
-	color: white;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 2em;
-}	
+  color: white;
+  padding-left: 88px;
+  padding-top: 40px;
+  padding-bottom: 45px;
+}
 
 #watch-now {
-	position: relative;
-	min-width: 36em;
+  min-width: 36em;
+  margin-top: 50px;
 }
 
 #info {
-	position: relative;
-	margin-top: 2em;
+  padding-top: 2em;
 }
 
 #info p {
-	font-size: 1.2em;
-}
-	
-#description {
-	position: relative;
-	margin-top: 2em;
+  font-size: 1.5em;
+  margin: 20px 0px 0px 0px;
 }
 
 #description p {
-	font-size: 1.5em;
+  font-size: 1.5em;
+  margin: 20px 0px 0px 0px;
 }
 
 #watch-button {
-	visibility: hidden;
-	background-color: white;
-	border: none;
-	color: black;
-	padding: 1em 2em;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 2em;
-	border-radius: 1em;
+  visibility: hidden;
+  background-color: #0b1a1f;
+  border: none;
+  color: white;
+  padding: 1em 3em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2em;
+  border-radius: 1em;
+}
+
+#watch-button:focus,
+#watch-button:active {
+  background-color: white;
+  color: black;
 }
 
 #popup-container {
-	margin: auto;
-	position: absolute;
-	top: 0; 
-	left: 0; 
-	bottom: 0; 
-	right: 0;
-	text-align: center;
-	visibility: hidden;
-	width: 1280px;
-	height: 900px;
-	background-color: #004d99;
-	border: 2px solid white;
-	z-index: 99;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  visibility: hidden;
+  width: 1280px;
+  height: 900px;
+  background-color: #0c284d;
+  border: 2px solid white;
+  border-radius: 30px;
+  z-index: 99;
 }
 
 #popup-title {
-	background-color: #006699;
-	border-bottom: 2px solid white;
-	height: 16%;
+  height: 13%;
 }
 
 #popup-title p {
-	font-size: 3em;
-	color: white;
-	margin: 0;
-	padding-top: 1em;
+  font-size: 3em;
+  color: white;
+  margin: 0;
+  padding-top: 1em;
 }
 
 #content-container {
-	height: 62%;
-	width: 1278px;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: #004080;
-	overflow: hidden;
-	z-index: 9;
+  height: 70%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #0c284d;
+  overflow: hidden;
+  z-index: 9;
 }
 
 #content-container p {
-	color: white;
-	font-size: 2em;
-	margin: 0;
-	padding-top: 1em;
+  color: white;
+  font-size: 2em;
+  margin: 0;
+  padding-top: 1em;
 }
 
 #providers {
-	position: relative;
-	height: 85%;
-	width: 100%;
-	margin-top: 1%;
-	margin-left: auto;
-	margin-right: auto;
-	background-color: transparent;
-	overflow-x: hidden;
+  position: relative;
+  height: 90%;
+  width: 100%;
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+  overflow-x: hidden;
 }
 
 #cancel-button {
-	background-color: #003366;
-	position: relative;
-	border: none;
-	color: white;
-	padding: 1em 2em;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 2em;
-	border-radius: 0.5em;
-	margin-top: 1em;
-	margin-bottom: 1em;
+  background-color: #0c284d;
+  position: relative;
+  border: 1px solid white;
+  color: white;
+  padding: 0.5em 2.5em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2em;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
 }
 
 #cancel-button:focus {
-	background-color: white;
-	color: black;
-	outline: none;	
+  background-color: white;
+  color: black;
+  outline: none;
 }
 
 .provider {
-	position: absolute;
-	left: 1em;
-	top: 2em;
-	width: 21em;
-	height: 24em;
-	background-color: #1a1a1a;
-	transition: left 0.5s;
-	color: white;	
-	outline: none;
+  border-radius: 20px;
+  position: absolute;
+  left: 1em;
+  top: 2em;
+  width: 21em;
+  height: 30em;
+  transition: left 0.2s;
+  color: white;
+  outline: none;
 }
 
 .provider:focus {
-	transform: scale(1.05);
-	background-color: white;
-	color: black !important;
+  border-radius: 20px;
+  zoom: 1.01;
+  background-color: white;
+  color: black !important;
+  border: 4px solid black;
+  margin-left: -9px;
+  margin-top: -5px;
 }
 
 .provider-image {
-	height: 70%;
-	width: 100%;	
+  height: 70%;
+  width: 100%;
+  border-radius: 20px;
+}
+
+.provider:focus .provider-image {
+  border: 1px solid black;
+}
+
+.provider h3 {
+  font-size: x-large;
+  margin: 0px 0px 0px 0px;
+  top: 5%;
+  margin-left: 30px;
+  position: relative;
+  text-align: left;
+}
+
+.provider h4 {
+  text-align: left;
+  top: 2%;
+  position: relative;
+  margin-left: 30px;
+  font-size: larger;
 }
 
 /* TOAST IMPLEMENTATION */
 #toast {
-    visibility: hidden;
-    width: 64em;
-    height: 6em;
-    margin: auto;
-    background-color: rgba(77, 77, 77, 1);
-    color: #fff;
-    text-align: left;
-    border-radius: 1em;
-    position: absolute;
-    z-index: 999;
-    left: 0;
-    right:0;
-    bottom: 1em;
-    font-size: 1.6em;
+  visibility: hidden;
+  width: 64em;
+  height: 6em;
+  margin: auto;
+  background-color: rgba(77, 77, 77, 1);
+  color: #fff;
+  text-align: left;
+  border-radius: 1em;
+  position: absolute;
+  z-index: 999;
+  left: 0;
+  right: 0;
+  bottom: 1em;
+  font-size: 1.6em;
 }
 
 #toast #desc {
-	width: 100%;
-	height: 100%;
-    color: #fff;
-    padding: 1em;
-    text-align: center;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  padding: 1em;
+  text-align: center;
 }
 
 #toast.show {
-    visibility: visible;
+  visibility: visible;
 }
 
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;} 
-    to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+  from {
+    bottom: 0;
+    opacity: 0;
+  }
+
+  to {
+    bottom: 30px;
+    opacity: 1;
+  }
 }
 
 @-webkit-keyframes expand {
-    from {min-width: 50px} 
-    to {min-width: 350px}
+  from {
+    min-width: 50px
+  }
+
+  to {
+    min-width: 350px
+  }
 }
 
 @keyframes expand {
-    from {min-width: 50px}
-    to {min-width: 350px}
+  from {
+    min-width: 50px
+  }
+
+  to {
+    min-width: 350px
+  }
 }
 
 @-webkit-keyframes stay {
-    from {min-width: 350px} 
-    to {min-width: 350px}
+  from {
+    min-width: 350px
+  }
+
+  to {
+    min-width: 350px
+  }
 }
 
 @keyframes stay {
-    from {min-width: 350px}
-    to {min-width: 350px}
+  from {
+    min-width: 350px
+  }
+
+  to {
+    min-width: 350px
+  }
 }
+
 @-webkit-keyframes shrink {
-    from {min-width: 350px;} 
-    to {min-width: 50px;}
+  from {
+    min-width: 350px;
+  }
+
+  to {
+    min-width: 50px;
+  }
 }
 
 @keyframes shrink {
-    from {min-width: 350px;} 
-    to {min-width: 50px;}
+  from {
+    min-width: 350px;
+  }
+
+  to {
+    min-width: 50px;
+  }
 }
 
 @-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;} 
-    to {bottom: 60px; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
 
 @keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 60px; opacity: 0;}
+  from {
+    bottom: 30px;
+    opacity: 1;
+  }
+
+  to {
+    bottom: 60px;
+    opacity: 0;
+  }
 }
