@@ -44,7 +44,6 @@ var moreContentIndex = 0;
 // Register remote control keys in order for the application to react accordingly
 function registerKeys() {
   var usedKeys = [
-    "Exit",
     "ColorF0Red",
     "ColorF1Green",
     "ColorF2Yellow",
@@ -63,13 +62,6 @@ function registerKeys() {
 // Initialize voice web api
 function voiceInteractionInit() {
   console.log("ENTERED voiceInteractionInit FUNCTION");
-  var version = "0.0.0";
-  try {
-    version = webapis.voiceinteraction.getVersion();
-  }
-  catch (e) {
-    console.log("exception [" + e.code + "] name: " + e.name + " message: " + e.message);
-  }
   try {
     webapis.voiceinteraction.setCallback(
       {
@@ -863,18 +855,6 @@ document.body.addEventListener('keydown', function (event) {
     case 10233: // Next
       break;
     case 10252:
-      break;
-    case 10182: // EXIT
-      event.preventDefault();
-      if (confirm(LANG_JSON_DATA['exit-confirm'])) {
-        window.tizen.application.getCurrentApplication().exit();
-      }
-      break;
-    case "XF86Exit": // EXIT
-      event.preventDefault();
-      if (confirm(LANG_JSON_DATA['exit-confirm'])) {
-        window.tizen.application.getCurrentApplication().exit();
-      }
       break;
     default: console.log("Unhandled keycode: " + event.keyCode);
   }
