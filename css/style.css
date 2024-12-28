@@ -453,6 +453,26 @@ footer pre {
   visibility: visible;
 }
 
+#button-helpModule {
+  position: absolute;
+  width: 100%;
+  top: 86%;
+  text-align: right;
+}
+
+#button-helpModule img {
+  height: 100px;
+  padding-right: 2%;
+}
+
+#button-helpModule img:focus,
+#button-helpModule img:active {
+  height: 100px;
+  padding-right: 2%;
+  content: url(../images/information_selected.png);
+  outline: none;
+}
+
 @-webkit-keyframes fadein {
   from {
     bottom: 0;

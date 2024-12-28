@@ -46,12 +46,13 @@ var pendingMove = 0;
 var navigationInterval = false;
 // SetTimeout variable used for onnavigation voice commands
 var navigationSetTimeout = false;
+// Get help module button element
+var buttonHelp = document.querySelectorAll("#button-helpModule img")[0];
 
 /******************** FUNCTIONS ********************/
 // Register remote control keys in order for the application to react accordingly
 function registerKeys() {
   var usedKeys = [
-    "Exit",
     "ColorF0Red",
     "ColorF1Green",
     "ColorF2Yellow",
@@ -704,8 +705,7 @@ function voiceInteractionInit() {
     console.log(version);
     document.getElementById("desc").innerHTML = "<p>Plugin version: " + version + "</p>";
     launch_toast();
-  }
-  catch (e) {
+  } catch (e) {
     console.log("exception [" + e.code + "] name: " + e.name + " message: " + e.message);
     document.getElementById("desc").innerHTML = "<p>ERROR: [" + e.code + "] name: " + e.name + " message: " + e.message + "</p>";
     launch_toast();
@@ -917,7 +917,7 @@ var init = function () {
       toastMessageIsOn = true;
     }
   }
-  console.log('Version 1.15 | init() called');
+  console.log('Version 1.16 | init() called');
   registerKeys();
   document.getElementById('searchBar').placeholder = LANG_JSON_DATA.input_placeholder;
   voiceInteractionInit();
@@ -961,29 +961,34 @@ function getNoDummyData() {
 function itemSelected() {
   var queryString;
   var isFocused = (document.activeElement === input);
+  var helpFocused = (document.activeElement === buttonHelp);
   // Insert corresponding URI information depending on which row the element was selected from
-  if (result.length > 0 && !isFocused) {
-    switch (rowIndex) {
-      case 0: break;
-      case 1: queryString = "?para1=" + result[focusIndex].id;
-        queryString += "&para2=" + input.value;
-        window.location.href = "details.html" + queryString;
-        break;
-      case 2: if (resultMovie.length > 0) {
-        queryString = "?para1=" + resultMovie[movieIndex].id;
-        queryString += "&para2=" + input.value;
-        window.location.href = "details.html" + queryString;
-      } else {
-        queryString = "?para1=" + resultTV[tvIndex].id;
-        queryString += "&para2=" + input.value;
-        window.location.href = "details.html" + queryString;
+  if (!helpFocused) {
+    if (result.length > 0 && !isFocused) {
+      switch (rowIndex) {
+        case 0: break;
+        case 1: queryString = "?para1=" + result[focusIndex].id;
+          queryString += "&para2=" + input.value;
+          window.location.href = "details.html" + queryString;
+          break;
+        case 2: if (resultMovie.length > 0) {
+          queryString = "?para1=" + resultMovie[movieIndex].id;
+          queryString += "&para2=" + input.value;
+          window.location.href = "details.html" + queryString;
+        } else {
+          queryString = "?para1=" + resultTV[tvIndex].id;
+          queryString += "&para2=" + input.value;
+          window.location.href = "details.html" + queryString;
+        }
+          break;
+        case 3: queryString = "?para1=" + resultTV[tvIndex].id;
+          queryString += "&para2=" + input.value;
+          window.location.href = "details.html" + queryString;
+          break;
       }
-        break;
-      case 3: queryString = "?para1=" + resultTV[tvIndex].id;
-        queryString += "&para2=" + input.value;
-        window.location.href = "details.html" + queryString;
-        break;
     }
+  } else {
+    window.location.href = 'helpModule.html';
   }
 }
 // Content was selected with a mouse click
@@ -1079,21 +1084,7 @@ document.body.addEventListener('keydown', function (event) {
       break;
     case 10009: // RETURN button
       event.preventDefault();
-      if (confirm("Exit Application?")) {
-        window.tizen.application.getCurrentApplication().exit();
-      }
-      break;
-    case 10182: // EXIT
-      event.preventDefault();
-      if (confirm("Exit Application?")) {
-        window.tizen.application.getCurrentApplication().exit();
-      }
-      break;
-    case "XF86Exit": // EXIT
-      event.preventDefault();
-      if (confirm("Exit Application?")) {
-        window.tizen.application.getCurrentApplication().exit();
-      }
+      window.tizen.application.getCurrentApplication().exit();
       break;
     default: console.log("Unhandled keycode: " + event.keyCode);
   }
@@ -1200,16 +1191,21 @@ function scrollDown() {
     if (rowIndex === 0) {
       rowIndex = 1;
     } else if (rowIndex === 1) {
-      if (resultMovie.length > 0 || resultTV.length > 0) {
-        rowIndex = 2;
-      }
+      rowIndex = 2;
     } else if (rowIndex === 2) {
-      if (resultMovie.length > 0 && resultTV.length > 0) {
+      if (resultMovie.length > 0 || resultTV.length > 0) {
         rowIndex = 3;
       }
-    } else {
+    } else if (rowIndex === 3) {
+      if (resultMovie.length > 0 && resultTV.length > 0) {
+        rowIndex = 4;
+      }
+    }
+    else {
       return;
     }
+  } else {
+    rowIndex = 1;
   }
   // Animate result containers depending on the position of the current and previous focus
   switch (rowIndex) {
@@ -1217,6 +1213,8 @@ function scrollDown() {
     case 1: if (result.length > 0) {
       document.getElementsByClassName("card")[focusIndex].focus();
       document.getElementsByClassName("dots")[focusIndex].src = "images/blackDots.png";
+    } else {
+      buttonHelp.focus();
     }
       break;
     case 2: if (resultMovie.length > 0) {
@@ -1238,9 +1236,11 @@ function scrollDown() {
       document.getElementsByClassName("tCard")[tvIndex].focus();
       document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
       document.getElementsByClassName("dots")[focusIndex].src = "images/whiteDots.png";
+    } else {
+      buttonHelp.focus();
     }
       break;
-    case 3: if (resultTV.length > 0) {
+    case 3: if (resultTV.length > 0 && resultMovie.length > 0) {
       if (scrolledUp === true) {
         scrolledUp = false;
         buttonEnabled = false;
@@ -1248,15 +1248,25 @@ function scrollDown() {
           document.getElementsByClassName("tCard")[tvIndex].focus();
           document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
           buttonEnabled = true;
-        }, 500);
+        }, 250);
         document.getElementsByClassName("mDots")[movieIndex].src = "images/whiteDots.png";
         document.getElementsByClassName("mCard")[movieIndex].blur();
       } else {
-        document.getElementsByClassName("tCard")[tvIndex].focus();
-        document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
-        document.getElementsByClassName("mDots")[movieIndex].src = "images/whiteDots.png";
+        setTimer = setTimeout(function () {
+          document.getElementsByClassName("tCard")[tvIndex].focus();
+          document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
+          document.getElementsByClassName("mDots")[movieIndex].src = "images/whiteDots.png";
+        }, 250);
       }
     }
+    else {
+      buttonHelp.focus();
+    }
+      break;
+    case 4:
+      setTimer = setTimeout(function () {
+        buttonHelp.focus();
+      }, 250);
       break;
   }
 }
@@ -1378,7 +1388,7 @@ function navLeft() {
         }
       }
       break;
-    case 3: if (resultTV.length > 0) {
+    case 3: if (resultMovie.length > 0 && resultTV.length > 0) {
       if (buttonEnabled) {
         tvIndex -= 1;
         if (tvIndex < 0) {
@@ -1490,32 +1500,35 @@ function navRight() {
       }
     }
       break;
-    case 3: if (buttonEnabled) {
-      tvIndex += 1;
-      if (resultTV.length > 1) {
-        if (tvIndex > (resultTV.length - 1)) {
-          tvIndex = resultTV.length - 1;
-          document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
+    case 3:
+      if (resultMovie.length > 0 && resultTV.length > 0) {
+        if (buttonEnabled) {
+          tvIndex += 1;
+          if (resultTV.length > 1) {
+            if (tvIndex > (resultTV.length - 1)) {
+              tvIndex = resultTV.length - 1;
+              document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
+            } else {
+              document.getElementsByClassName("tDots")[tvIndex - 1].src = "images/whiteDots.png";
+              document.getElementsByClassName("tCard")[tvIndex].focus();
+              document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
+              shiftLeft();
+            }
+          } else {
+            tvIndex = 0;
+            document.getElementsByClassName("tCard")[tvIndex].focus();
+            document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
+          }
         } else {
-          document.getElementsByClassName("tDots")[tvIndex - 1].src = "images/whiteDots.png";
-          document.getElementsByClassName("tCard")[tvIndex].focus();
-          document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
-          shiftLeft();
+          pendingMove += 1;
+          if (navigationSetTimeout === false && navigationInterval === false) {
+            navigationSetTimeout = setTimeout(function () {
+              navigationInterval = setInterval(newNavRight, 100);
+            }, 1000);
+          }
         }
-      } else {
-        tvIndex = 0;
-        document.getElementsByClassName("tCard")[tvIndex].focus();
-        document.getElementsByClassName("tDots")[tvIndex].src = "images/blackDots.png";
+        break;
       }
-    } else {
-      pendingMove += 1;
-      if (navigationSetTimeout === false && navigationInterval === false) {
-        navigationSetTimeout = setTimeout(function () {
-          navigationInterval = setInterval(newNavRight, 100);
-        }, 1000);
-      }
-    }
-      break;
   }
 }
 // NAV_NEXT behavior, cursor moves right at most 4 times at once
