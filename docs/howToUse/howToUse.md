@@ -1,25 +1,5 @@
 # How to use
 
-## Search
-
-* Search page allows you to utter `commands` such as:
-
-  e.g.
-    > "Search for Titanic", "Search for Drama"
-
-* `Search by` criteria:
-
-  * Title
-  * Genre
-  * Cast
-  * Year of release
-  * Multiple combinations are permitted
-
-  e.g.
-    > "search Alice in Wonderland with Johnny Depp" (title/cast)
-    > "search comedy films with Jim Carrey from 1996" (genre/cast/year)
-    > "search horror tv shows from 2000" (genre/year)
-
 ## Navigation
 
 * You can navigate using the `remote` control `buttons`:
@@ -68,7 +48,6 @@
 
 |Function|Utterances|Expected Result|
 |--------|----------|---------------|
-|Search|"Search drama", "Search Avatar", "Search movies with robert de niro", "Search movies from 2009"|Display a collection of content tiles (items) relevant to the search query.|
 |Navigation|"Move up", "Down", "Move right 4 times", "Move left", "Show more"|Move the focus to another selectable item on screen.|
 |Selection|"Select this", "Select the third one"|Select the item with focus or the item that matches the ordinal value given.|
 |Title Selection|"Select Titanic", "Choose Caroline"|Select the item (or display a toast message) that contains a keyword match from the user's utterance.|

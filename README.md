@@ -22,7 +22,7 @@ In order to create a custom implementation you can follow the next documentation
 This is a public app developed by the Bixby Samsung Research Tijuana team, in order to request support you can:
 
 * Use the [Github issue tracker](https://github.com/SamsungDForum/SampleWebApps-VIF/issues) to see if someone else has a similar issue, or to file a new one
-* Contact Roberto Yllescas (`roberto.y@samsung.com`) to request specific support outside the implementation scope detailed in this repository
+* Contact Mariesli Lavenant (`m.lavenant@samsung.com`) to request specific support outside the implementation scope detailed in this repository
 * Read the integrated help module. This module includes three different sections to help you out: the user manual, a remote control functionality section, and a FAQ section. If you have a question while using the app we recommend to check it out. To do so, please click the "info" button on the bottom right corner of the screen.
 
 ![Help Module location](docs/media/help_module.png)
